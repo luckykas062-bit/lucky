@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucky | AI Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070308;
+    --bg2:#0d0612;
+    --pink:#ff2d78;
+    --pink-dim:#ff2d7833;
+    --violet:#8a2be2;
+    --cyan:#33fff0;
+    --text:#f3eef5;
+    --muted:#9b8aa3;
+    --card:#120914;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Space Grotesk',sans-serif;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  h1,h2,h3,.logo{font-family:'Orbitron',sans-serif;}
+
+  /* ambient glow background */
+  body::before{
+    content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(255,45,120,0.18) 0%, transparent 35%),
+      radial-gradient(circle at 85% 30%, rgba(138,43,226,0.16) 0%, transparent 40%),
+      radial-gradient(circle at 50% 90%, rgba(255,45,120,0.10) 0%, transparent 45%);
+  }
+  .scanlines{
+    position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.05;
+    background:repeating-linear-gradient(0deg, #fff 0px, transparent 1px, transparent 3px);
+  }
+  .container{max-width:1180px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+
+  /* NAV */
+  nav{position:fixed;top:0;width:100%;z-index:1000;
+    background:rgba(7,3,8,0.7);backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(255,45,120,0.15);}
+  .nav-inner{display:flex;justify-content:space-between;align-items:center;height:72px;}
+  .logo{font-size:20px;font-weight:900;letter-spacing:2px;
+    background:linear-gradient(135deg,var(--pink),var(--violet));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  .nav-links{display:flex;gap:36px;list-style:none;}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:14px;letter-spacing:1px;
+    text-transform:uppercase;font-weight:500;transition:.3s;}
+  .nav-links a:hover{color:var(--pink);}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;align-items:center;padding:100px 0 60px;position:relative;}
+  .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:60px;align-items:center;}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;text-align:center;}}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);
+    border:1px solid rgba(51,255,240,0.3);border-radius:50px;padding:8px 18px;margin-bottom:28px;
+    animation:pulse-border 3s ease-in-out infinite;
+  }
+  @keyframes pulse-border{
+    0%,100%{box-shadow:0 0 0 0 rgba(51,255,240,0.0);}
+    50%{box-shadow:0 0 22px 0 rgba(51,255,240,0.25);}
+  }
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);
+    animation:blink 1.4s infinite;}
+  @keyframes blink{50%{opacity:.2;}}
+
+  .hero h1{font-size:clamp(40px,7vw,72px);font-weight:900;line-height:1.08;letter-spacing:-1px;margin-bottom:20px;}
+  .hero h1 .grad{
+    background:linear-gradient(135deg,var(--pink) 0%,var(--violet) 60%,var(--cyan) 100%);
+    background-size:200% 200%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    animation:gradShift 6s ease infinite;
+  }
+  @keyframes gradShift{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+
+  .hero p.sub{color:var(--muted);font-size:18px;max-width:520px;margin-bottom:32px;}
+  @media(max-width:860px){.hero p.sub{margin:0 auto 32px;}}
+
+  .tagrow{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:36px;}
+  @media(max-width:860px){.tagrow{justify-content:center;}}
+  .tag{font-size:12px;letter-spacing:1px;padding:8px 16px;border-radius:6px;
+    border:1px solid rgba(255,45,120,0.25);color:var(--text);background:rgba(255,45,120,0.06);}
+
+  .hero-buttons{display:flex;gap:16px;flex-wrap:wrap;}
+  @media(max-width:860px){.hero-buttons{justify-content:center;}}
+  .btn{padding:15px 32px;border-radius:8px;font-weight:700;font-size:14px;letter-spacing:1px;
+    text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:.3s;
+    display:inline-flex;align-items:center;gap:8px;}
+  .btn-primary{background:linear-gradient(135deg,var(--pink),var(--violet));color:#fff;
+    box-shadow:0 4px 24px rgba(255,45,120,0.35);}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(255,45,120,0.5);}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.18);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);}
+
+  /* hero portrait */
+  .portrait-wrap{position:relative;display:flex;justify-content:center;}
+  .portrait{
+    width:320px;height:400px;border-radius:18px;object-fit:cover;
+    border:1px solid rgba(255,45,120,0.3);
+    box-shadow:0 0 0 1px rgba(138,43,226,0.2), 0 20px 60px rgba(255,45,120,0.25);
+    animation:floatY 7s ease-in-out infinite;
+  }
+  @keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+  .portrait-ring{
+    position:absolute;inset:-22px;border-radius:28px;z-index:-1;
+    border:1px dashed rgba(51,255,240,0.25);
+    animation:spin 30s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* SECTION shared */
+  section{padding:100px 0;position:relative;}
+  .section-eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin-bottom:12px;}
+  .section-title{font-size:clamp(28px,4vw,44px);font-weight:900;margin-bottom:50px;letter-spacing:-1px;}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:60px;align-items:center;}
+  @media(max-width:860px){.about-grid{grid-template-columns:1fr;}}
+  .about-photo{width:100%;border-radius:18px;object-fit:cover;
+    border:1px solid rgba(138,43,226,0.3);box-shadow:0 20px 60px rgba(138,43,226,0.2);}
+  .about-text p{color:var(--muted);margin-bottom:18px;font-size:16px;max-width:560px;}
+  .about-text strong{color:var(--text);}
+
+  /* SKILLS */
+  .skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  @media(max-width:860px){.skills-grid{grid-template-columns:repeat(2,1fr);}}
+  .skill-card{
+    background:var(--card);border:1px solid rgba(255,45,120,0.12);border-radius:14px;
+    padding:28px 22px;transition:.35s;position:relative;overflow:hidden;
+  }
+  .skill-card::before{
+    content:'';position:absolute;inset:0;opacity:0;transition:.35s;
+    background:linear-gradient(135deg,rgba(255,45,120,0.12),rgba(138,43,226,0.12));
+  }
+  .skill-card:hover{transform:translateY(-6px);border-color:rgba(255,45,120,0.4);}
+  .skill-card:hover::before{opacity:1;}
+  .skill-icon{font-size:30px;margin-bottom:14px;display:block;}
+  .skill-card h3{font-size:16px;margin-bottom:6px;font-family:'Space Grotesk';font-weight:700;}
+  .skill-card p{font-size:13px;color:var(--muted);}
+  .skill-bar{height:4px;border-radius:2px;background:rgba(255,255,255,0.08);margin-top:16px;overflow:hidden;}
+  .skill-bar span{display:block;height:100%;border-radius:2px;
+    background:linear-gradient(90deg,var(--pink),var(--violet));
+    animation:fillBar 1.6s ease forwards;width:0;}
+  @keyframes fillBar{to{width:var(--w);}}
+
+  /* PROJECTS / REELS */
+  .reel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  @media(max-width:900px){.reel-grid{grid-template-columns:1fr;}}
+  .reel-card{
+    background:var(--card);border:1px solid rgba(138,43,226,0.18);border-radius:16px;overflow:hidden;
+    transition:.35s;
+  }
+  .reel-card:hover{transform:translateY(-6px);border-color:var(--pink);box-shadow:0 16px 40px rgba(255,45,120,0.2);}
+  .reel-card video{width:100%;display:block;aspect-ratio:9/16;object-fit:cover;background:#000;}
+  .reel-info{padding:18px 20px;}
+  .reel-info h3{font-size:16px;margin-bottom:6px;}
+  .reel-info p{font-size:13px;color:var(--muted);}
+  .reel-tag{display:inline-block;margin-top:10px;font-size:11px;letter-spacing:1px;text-transform:uppercase;
+    color:var(--cyan);border:1px solid rgba(51,255,240,0.25);border-radius:50px;padding:4px 12px;}
+
+  /* TIMELINE / EDU */
+  .timeline{max-width:700px;margin:0 auto;border-left:1px solid rgba(255,45,120,0.25);padding-left:32px;}
+  .timeline-item{position:relative;margin-bottom:36px;}
+  .timeline-item::before{
+    content:'';position:absolute;left:-39px;top:4px;width:14px;height:14px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--pink);box-shadow:0 0 12px var(--pink);
+  }
+  .timeline-item h3{font-size:18px;margin-bottom:6px;}
+  .timeline-item p{color:var(--muted);font-size:14px;}
+
+  /* CONTACT */
+  .contact-box{
+    text-align:center;padding:70px 40px;border-radius:20px;
+    background:linear-gradient(135deg, rgba(255,45,120,0.08), rgba(138,43,226,0.08));
+    border:1px solid rgba(255,45,120,0.2);
+  }
+  .contact-box h2{font-size:clamp(28px,4vw,42px);margin-bottom:18px;}
+  .contact-box p{color:var(--muted);margin-bottom:32px;}
+
+  footer{padding:36px 0;text-align:center;color:var(--muted);font-size:13px;
+    border-top:1px solid rgba(255,255,255,0.06);}
+
+  /* AI ROBOT WIDGET */
+  #ai-bot{
+    position:fixed;bottom:28px;right:28px;z-index:2000;
+    width:64px;height:64px;border-radius:50%;cursor:pointer;
+    background:radial-gradient(circle at 30% 30%, var(--cyan), var(--violet) 60%, var(--pink) 100%);
+    display:flex;align-items:center;justify-content:center;font-size:28px;
+    box-shadow:0 0 0 0 rgba(255,45,120,0.5), 0 8px 30px rgba(255,45,120,0.4);
+    animation:botPulse 2.4s ease-in-out infinite;
+    border:2px solid rgba(255,255,255,0.2);
+  }
+  @keyframes botPulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(255,45,120,0.4), 0 8px 30px rgba(255,45,120,0.35);}
+    50%{box-shadow:0 0 0 14px rgba(255,45,120,0), 0 8px 30px rgba(255,45,120,0.5);}
+  }
+  #chat-panel{
+    position:fixed;bottom:104px;right:28px;width:320px;max-height:420px;z-index:2000;
+    background:var(--bg2);border:1px solid rgba(255,45,120,0.25);border-radius:16px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.6);
+    display:none;flex-direction:column;overflow:hidden;
+  }
+  #chat-panel.open{display:flex;}
+  .chat-head{
+    padding:14px 18px;background:linear-gradient(135deg,rgba(255,45,120,0.18),rgba(138,43,226,0.18));
+    display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .chat-head .b{width:10px;height:10px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:blink 1.4s infinite;}
+  .chat-head span{font-family:'Orbitron';font-size:13px;letter-spacing:1px;}
+  #chat-log{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;font-size:13px;}
+  .msg{padding:10px 14px;border-radius:10px;max-width:85%;line-height:1.5;}
+  .msg.bot{background:rgba(138,43,226,0.15);border:1px solid rgba(138,43,226,0.25);align-self:flex-start;}
+  .msg.user{background:rgba(255,45,120,0.15);border:1px solid rgba(255,45,120,0.25);align-self:flex-end;}
+  .chat-quick{display:flex;flex-wrap:wrap;gap:6px;padding:10px 14px;border-top:1px solid rgba(255,255,255,0.06);}
+  .chip{font-size:11px;padding:6px 10px;border-radius:50px;border:1px solid rgba(51,255,240,0.25);
+    color:var(--cyan);cursor:pointer;background:transparent;transition:.2s;}
+  .chip:hover{background:rgba(51,255,240,0.1);}
+
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-thumb{background:rgba(255,45,120,0.3);border-radius:3px;}
+
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+
+<nav>
+  <div class="container nav-inner">
+    <div class="logo">LUCKY.AI</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#myprojects">My Projects</a></li>
+      <li><a href="#projects">AI Videos</a></li>
+      <li><a href="#journey">Journey</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> AVAILABLE FOR AI &amp; AUTOMATION PROJECTS</div>
+      <h1>Building the <span class="grad">Agentic AI</span> Future, One Workflow at a Time.</h1>
+      <p class="sub">Hi, I'm Lucky — an aspiring AI technologist exploring agentic AI, automation, and intelligent systems, blending code, strategy, and creativity into futuristic digital experiences.</p>
+      <div class="tagrow">
+        <span class="tag">Agentic AI · Certified</span>
+        <span class="tag">Python · Certified</span>
+        <span class="tag">Marketing</span>
+        <span class="tag">AI Technology</span>
+      </div>
+      <div class="hero-buttons">
+        <a href="#projects" class="btn btn-primary">View My AI Reels →</a>
+        <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+      </div>
+    </div>
+    <div class="portrait-wrap">
+      <div class="portrait-ring"></div>
+      <img class="portrait" src="lucky1.jpeg" alt="Lucky portrait">
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container about-grid">
+    <img class="about-photo reveal" src="lucky 3.jpeg" alt="Lucky">
+    <div class="about-text reveal">
+      <div class="section-eyebrow">// ABOUT ME</div>
+      <h2 class="section-title">Curious mind. Future-focused builder.</h2>
+      <p>I'm currently navigating the world of <strong>Agentic AI</strong> — systems that don't just respond, but think, plan, and act. My goal is to combine that with practical <strong>Python</strong> development and <strong>marketing strategy</strong> to build tools that genuinely help people.</p>
+      <p>Having completed my <strong>12th grade education</strong>, I've chosen to go deep into AI technology early — learning by building, experimenting with automations, and creating AI-driven content and reels that explore what the next era of intelligent software looks like.</p>
+      <p>This portfolio itself is part of that journey: an AI-themed, animation-rich space designed and structured with the same future-forward thinking I bring to my projects.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-eyebrow reveal">// CAPABILITIES</div>
+    <h2 class="section-title reveal">Core Skill Stack</h2>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <span class="skill-icon">🤖</span>
+        <h3>Agentic AI</h3>
+        <p>Certified — designing AI systems that plan and execute multi-step tasks autonomously.</p>
+        <div class="skill-bar"><span style="--w:90%"></span></div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-icon">🐍</span>
+        <h3>Python</h3>
+        <p>Certified — scripting, automation, and core programming logic for AI workflows.</p>
+        <div class="skill-bar"><span style="--w:85%"></span></div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-icon">📈</span>
+        <h3>Marketing</h3>
+        <p>Brand storytelling, content strategy, and growth thinking for digital products.</p>
+        <div class="skill-bar"><span style="--w:75%"></span></div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-icon">⚡</span>
+        <h3>AI Technology</h3>
+        <p>Hands-on with generative AI tools, AI video creation, and emerging tech trends.</p>
+        <div class="skill-bar"><span style="--w:88%"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MY PROJECTS -->
+<section id="myprojects">
+  <div class="container">
+    <div class="section-eyebrow reveal">// PORTFOLIO</div>
+    <h2 class="section-title reveal">My Projects</h2>
+    <div class="reel-grid">
+      <div class="reel-card reveal" style="grid-column: span 1;">
+        <div style="aspect-ratio:9/16;background:linear-gradient(135deg, rgba(255,45,120,0.15), rgba(138,43,226,0.15));
+          display:flex;align-items:center;justify-content:center;font-size:60px;"><img src="jop.jpg" alt="jop"></div>
+        <div class="reel-info">
+          <h3>AI Futuristic Portfolio Website</h3>
+          <p>This very website — a black, dark-pink themed AI portfolio built with custom animations, glowing UI elements, and an interactive AI chat assistant.</p>
+          <span class="reel-tag">Web Design · HTML/CSS/JS</span>
+          <div style="margin-top:14px;">
+            <a href="AI-Future-Website-Ideas.html" target="_blank" style="color:var(--cyan);font-size:13px;text-decoration:underline;">🔗 View Live Project</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI VIDEOS -->
+<section id="projects">
+  <div class="container">
+    <div class="section-eyebrow reveal">// FEATURED WORK</div>
+    <h2 class="section-title reveal">AI Video Gallery</h2>
+    <div class="reel-grid">
+      <div class="reel-card reveal">
+        <video src="pv.1.mp4" autoplay muted loop playsinline disablePictureInPicture></video>
+        <div class="reel-info">
+          <h3>AI Vision Reel</h3>
+          <p>A short AI-generated concept reel exploring futuristic visuals and motion.</p>
+          <span class="reel-tag">AI Generated</span>
+        </div>
+      </div>
+      <div class="reel-card reveal">
+        <video src="python video.mp4" autoplay muted loop playsinline disablePictureInPicture></video>
+        <div class="reel-info">
+          <h3>python programming</h3>
+          <p>A glimpse into robotics meeting artificial intelligence — visualized.</p>
+          <span class="reel-tag">AI Generated</span>
+        </div>
+      </div>
+      <div class="reel-card reveal">
+        <video src="fdgr.mp4" autoplay muted loop playsinline disablePictureInPicture></video>
+        <div class="reel-info">
+          <h3>AI Effect on World</h3>
+          <p>A stylized look into the world of AI-assisted coding and development.</p>
+          <span class="reel-tag">AI Generated</span>
+        </div>
+      </div>
+      <div class="reel-card reveal">
+        <video src="pv.2.mp4" autoplay muted loop playsinline disablePictureInPicture></video>
+        <div class="reel-info">
+          <h3>Future of India with AI</h3>
+          <p>A vibrant short reel envisioning the future powered by artificial intelligence.</p>
+          <span class="reel-tag">AI Generated</span>
+        </div>
+      </div>
+      <div class="reel-card reveal">
+        <video src="pyth2.mp4" autoplay muted loop playsinline disablePictureInPicture></video>
+        <div class="reel-info">
+          <h3>python mobile projects</h3>
+          <p>An anime-style character narrates a vision of the AI-driven future.</p>
+          <span class="reel-tag">AI Generated</span>
+        </div>
+      </div>
+      <div class="reel-card reveal">
+        <video src="yhusfdks.mp4" autoplay muted loop playsinline disablePictureInPicture></video>
+        <div class="reel-info">
+          <h3>AI Concept Video</h3>
+          <p>An exploration of AI concepts brought to life through generative visuals.</p>
+          <span class="reel-tag">AI Generated</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="container">
+    <div class="section-eyebrow reveal">// THE PATH SO FAR</div>
+    <h2 class="section-title reveal">My Journey</h2>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <h3>12th Grade — Education Foundation</h3>
+        <p>Completed senior secondary education, building a base in analytical thinking.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <h3>Python Certification</h3>
+        <p>Learned programming fundamentals and applied them to real automation tasks.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <h3>Agentic AI Certification</h3>
+        <p>Studied autonomous AI agents — how they reason, plan, and execute tasks.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <h3>AI Content &amp; Marketing</h3>
+        <p>Started creating AI-generated reels and exploring marketing for AI-driven products.</p>
+      </div>
+      <div class="timeline-item reveal">
+        <h3>Now — Building This Portfolio</h3>
+        <p>Bringing it all together into a futuristic digital presence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-box reveal">
+      <h2>Let's Build Something <span class="grad">Intelligent.</span></h2>
+      <p>Open to collaborations, internships, and AI-driven projects.</p>
+      <a href="mailto:youremail@example.com" class="btn btn-primary">Email Me →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">© 2026 Lucky · AI Futuristic Portfolio · Powered by curiosity and code</div>
+</footer>
+
+<!-- AI ROBOT WIDGET -->
+<div id="ai-bot">🤖</div>
+<div id="chat-panel">
+  <div class="chat-head"><span class="b"></span><span>AI ASSISTANT // ONLINE</span></div>
+  <div id="chat-log">
+    <div class="msg bot">Hey! I'm Lucky's AI assistant. Ask me something about AI, or tap a topic below.</div>
+  </div>
+  <div class="chat-quick">
+    <button class="chip" data-q="agentic">Agentic AI</button>
+    <button class="chip" data-q="ml">Machine Learning</button>
+    <button class="chip" data-q="future">AI's Future</button>
+    <button class="chip" data-q="python">Why Python?</button>
+    <button class="chip" data-q="lucky">About Lucky</button>
+  </div>
+</div>
+
+<script>
+  // reveal on scroll
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+  },{threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  // AI bot facts
+  const facts = {
+    agentic: "Agentic AI refers to AI systems that can autonomously plan, reason, and take multi-step actions to achieve a goal — instead of just responding to a single prompt. Think of it as AI that can 'do', not just 'say'.",
+    ml: "Machine Learning is a branch of AI where systems learn patterns from data instead of being explicitly programmed. It powers everything from recommendation engines to voice assistants.",
+    future: "The future of AI points toward smarter agents, personalized assistants, and AI woven into everyday tools — making technology feel more like a collaborator than software.",
+    python: "Python is one of the most popular languages for AI because of its simple syntax and powerful libraries like TensorFlow, PyTorch, and pandas — perfect for fast experimentation.",
+    lucky: "Lucky is an aspiring AI technologist, certified in Agentic AI and Python, with a passion for marketing and futuristic digital experiences. This portfolio is part of that journey!"
+  };
+
+  const bot = document.getElementById('ai-bot');
+  const panel = document.getElementById('chat-panel');
+  const log = document.getElementById('chat-log');
+
+  bot.addEventListener('click', ()=> panel.classList.toggle('open'));
+
+  document.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      const key = chip.dataset.q;
+      const userMsg = document.createElement('div');
+      userMsg.className='msg user';
+      userMsg.textContent = chip.textContent;
+      log.appendChild(userMsg);
+
+      const botMsg = document.createElement('div');
+      botMsg.className='msg bot';
+      botMsg.textContent = facts[key];
+      log.appendChild(botMsg);
+
+      log.scrollTop = log.scrollHeight;
+    });
+  });
+</script>
+</body>
+</html>
